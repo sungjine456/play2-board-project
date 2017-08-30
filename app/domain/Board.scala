@@ -2,5 +2,5 @@ class Board {
   val idx: Long;
   val title: String;
   val context: String;
-  val user: User;
+  val writer: String;
 }
