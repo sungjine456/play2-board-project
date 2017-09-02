@@ -4,6 +4,7 @@ import javax.inject._
 
 import akka.actor.ActorSystem
 import play.api.mvc._
+import services.UserService
 
 import scala.concurrent.duration._
 import scala.concurrent.{ExecutionContext, Future, Promise}
@@ -37,11 +38,11 @@ class AsyncController @Inject()(cc: ControllerComponents, actorSystem: ActorSyst
   def message = Action.async {
     getFutureMessage(1.second).map { msg => Ok(msg) }
   }
-
+  private val userService = new UserService
   private def getFutureMessage(delayTime: FiniteDuration): Future[String] = {
     val promise: Promise[String] = Promise[String]()
     actorSystem.scheduler.scheduleOnce(delayTime) {
-      promise.success("Hi!")
+      promise.success(userService.findUser.toString)
     }(actorSystem.dispatcher) // run scheduled tasks using the actor system's dispatcher
     promise.future
   }
