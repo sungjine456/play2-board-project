@@ -1,0 +1,19 @@
+<!doctype html>
+<html ng-app="boardApp">
+    <head>
+        <script src="@routes.Assets.versioned("javascripts/angular.min.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.versioned("javascripts/board.js")" type="text/javascript"></script>
+        <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/board.css")">
+        <title>Board List</title>
+    </head>
+    <body>
+        <h2>게시판 글 목록</h2>
+        <div ng-controller="BoardListController as boardList">
+            <table>
+                <tr ng-repeat="title in titles">
+                    <td><span>{{title}}</span></td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>

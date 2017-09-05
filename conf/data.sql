@@ -14,6 +14,9 @@ create table boards (
 insert into users values('admin', '1234', 'admin');
 
 insert into boards values(1, 'title', 'context', 'admin');
+insert into boards values(2, 'test title', 'context', 'admin');
+insert into boards values(3, 'test title two', 'context', 'admin');
+insert into boards values(4, 'this is test title', 'context', 'admin');
 
 drop table boards;
 drop table users;
