@@ -1,5 +1,4 @@
 package domain
 
-class Board(val idx: Long, val title: String, val context: String, val writer: String) {
-
+case class Board(idx: Long, title: String, context: String, writer: String) {
 }
