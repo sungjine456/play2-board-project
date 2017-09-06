@@ -1,18 +1,18 @@
 package controllers
 
-import javax.inject._
+import javax.inject.{ Inject, Singleton }
 
-import domain.Board
-import play.api.mvc._
+import play.api.mvc.{ AbstractController, Action, AnyContent, ControllerComponents }
+
 import services.BoardService
 
 @Singleton
-class BoardController @Inject() (cc: ControllerComponents) extends AbstractController(cc) {
-  import play.api.libs.json._
+class BoardController @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
 
-  def board = Action {
-    val boardList: Seq[Board] = BoardService.findAll
-    val titles: Seq[String] = boardList.map(_.title)
+  import play.api.libs.json.Json
+
+  def board: Action[AnyContent] = Action {
+    val titles: Seq[String] = BoardService.findAll.map(_.title)
     Ok(Json.toJson(titles))
   }
 }

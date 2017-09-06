@@ -4,7 +4,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import slick.jdbc.PostgresProfile.api._
 
 object UserRepository {
-  class users(tag: Tag) extends Table[(String, String, String)](tag, "users") {
+  class Users(tag: Tag) extends Table[(String, String, String)](tag, "Users") {
     def id = column[String]("id", O.PrimaryKey)
     def password = column[String]("password")
     def name = column[String]("name")
@@ -16,7 +16,7 @@ object UserRepository {
   val driver = "org.postgresql.Driver"
 
   val db = Database.forURL(url, user = user, password = password, driver = driver)
-  val users = TableQuery[users]
+  val users = TableQuery[Users]
 
   def findAll = {
     db.run(users.result).map(_.foreach {

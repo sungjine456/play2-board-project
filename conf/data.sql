@@ -1,22 +1,22 @@
-create table users (
-  id        char(16) primary key,
-  password char(16) not null,
-  name      char(16) not null
+CREATE TABLE "Users" (
+  id        CHAR(16) PRIMARY KEY,
+  password  CHAR(16) NOT NULL,
+  name      CHAR(16) NOT NULL
 );
 
-create table boards (
-  idx       integer primary key,
-  title     char(100) not null,
-  context  char(2000) not null,
-  writer   char(16) not null
+CREATE TABLE "Boards" (
+  index    INTEGER PRIMARY KEY,
+  title    CHAR(100) NOT NULL,
+  context  CHAR(2000) NOT NULL,
+  writer   CHAR(16) NOT NULL
 );
 
-insert into users values('admin', '1234', 'admin');
+INSERT INTO "Users" VALUES('admin', '1234', 'admin');
 
-insert into boards values(1, 'title', 'context', 'admin');
-insert into boards values(2, 'test title', 'context', 'admin');
-insert into boards values(3, 'test title two', 'context', 'admin');
-insert into boards values(4, 'this is test title', 'context', 'admin');
+INSERT INTO "Boards" VALUES(1, 'title', 'context', 'admin');
+INSERT INTO "Boards" VALUES(2, 'test title', 'context', 'admin');
+INSERT INTO "Boards" VALUES(3, 'test title two', 'context', 'admin');
+INSERT INTO "Boards" VALUES(4, 'this is test title', 'context', 'admin');
 
-drop table boards;
-drop table users;
+DROP TABLE "Boards";
+DROP TABLE "Users";

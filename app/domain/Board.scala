@@ -1,4 +1,4 @@
 package domain
 
-case class Board(idx: Long, title: String, context: String, writer: String) {
+case class Board(index: Long, title: String, context: String, writer: String) {
 }
