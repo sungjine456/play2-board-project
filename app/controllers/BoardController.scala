@@ -13,6 +13,6 @@ class BoardController @Inject() (cc: ControllerComponents) extends AbstractContr
   def board = Action {
     val boardList: Seq[Board] = BoardService.findAll
     val titles: Seq[String] = boardList.map(_.title)
-    Ok( Json.toJson(titles) )
+    Ok(Json.toJson(titles))
   }
 }

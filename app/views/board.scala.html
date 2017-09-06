@@ -8,12 +8,12 @@
     </head>
     <body>
         <h2>게시판 글 목록</h2>
-        <div ng-controller="BoardListController as boardList">
             <table>
                 <tr ng-repeat="title in titles">
                     <td><span>{{title}}</span></td>
                 </tr>
             </table>
+        <div ng-controller="BoardListController">
         </div>
     </body>
 </html>
