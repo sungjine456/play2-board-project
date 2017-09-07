@@ -14,7 +14,7 @@ object BoardRepository {
     def * = (index, title, context, writer) <> (Board.tupled, Board.unapply _)
   }
 
-  val db = Database.forConfig("mydb")
+  val db = Database.forConfig("slick.dbs.default.db")
   val boards = TableQuery[Boards]
 
   def findAll(): Future[Seq[Board]] = db.run(boards.result)
