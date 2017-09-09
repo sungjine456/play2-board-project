@@ -12,8 +12,12 @@
         <div class="container">
             <h1 class="text-center">게시판 글 목록</h1>
             <ul id="list" ng-controller="BoardListController">
-                <li ng-repeat="title in titles">
-                    <label>{{title}}</label>
+                <li ng-repeat="board in boards">
+                    <div class="row">
+                        <div class="col-sm-1 text-center">{{$index + 1}}</div>
+                        <div class="col-sm-8">{{board.title}}</div>
+                        <div class="col-sm-3 text-center">{{board.writer}}</div>
+                    </div>
                 </li>
             </ul>
         </div>

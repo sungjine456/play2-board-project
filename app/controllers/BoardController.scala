@@ -13,10 +13,21 @@ class BoardController @Inject()(cc: ControllerComponents) extends AbstractContro
 
   import play.api.libs.json.Json
 
-  def board: Action[AnyContent] = Action.async {
+  def boards: Action[AnyContent] = Action.async {
     val boardService = new BoardServiceImpl
     boardService.findAll.map { boards =>
-      Ok(Json.toJson(boards.map(_.title)))
+      Ok(
+        Json.toJsObject(
+          Map(
+            "boards" -> boards.map(board =>
+              Map(
+                "title" -> Json.toJson(board.title),
+                "writer" -> Json.toJson(board.writer)
+              )
+            )
+          )
+        )
+      )
     }
   }
 }
