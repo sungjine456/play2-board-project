@@ -6,15 +6,14 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 import play.api.mvc.{ AbstractController, Action, AnyContent, ControllerComponents }
 
-import services.BoardServiceImpl
+import services.BoardService
 
 @Singleton
-class BoardController @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
+class BoardController @Inject()(boardService: BoardService, cc: ControllerComponents) extends AbstractController(cc) {
 
   import play.api.libs.json.Json
 
   def boards: Action[AnyContent] = Action.async {
-    val boardService = new BoardServiceImpl
     boardService.findAll.map { boards =>
       Ok(
         Json.toJsObject(

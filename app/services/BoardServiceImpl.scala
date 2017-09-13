@@ -1,10 +1,13 @@
 package services
 
+import javax.inject.{ Inject, Singleton }
+
 import scala.concurrent.Future
 
 import dao.BoardRepository
 import domain.Board
 
-class BoardServiceImpl extends BoardService {
+@Singleton
+class BoardServiceImpl @Inject() extends BoardService {
   override def findAll: Future[Seq[Board]] = BoardRepository.findAll()
 }
