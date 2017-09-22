@@ -16,7 +16,9 @@ libraryDependencies ++= Seq(ehcache, ws, specs2 % Test, guice,
   "com.typesafe.slick" %% "slick-hikaricp" % "3.2.1",
   "org.postgresql" % "postgresql" % "42.1.4",
   "com.typesafe.play" %% "play-json" % "2.6.3",
-  "com.typesafe.play" %% "play-slick-evolutions" % "3.0.1"
+  "com.typesafe.play" %% "play-slick-evolutions" % "3.0.1",
+  "org.scalatest" %% "scalatest" % "3.0.4" % "test",
+  "com.h2database" % "h2" % "1.4.196" % "test"
 )
 
 includeFilter in(Assets, LessKeys.less) := "board.less"
