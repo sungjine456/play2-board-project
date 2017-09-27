@@ -1,19 +1,6 @@
-<!doctype html>
-<html ng-app="boardApp">
-    <head>
-        <script src="@routes.Assets.versioned("javascripts/angular.min.js")" type="text/javascript"></script>
-        <script src="@routes.Assets.versioned("javascripts/angular-resource.min.js")" type="text/javascript"></script>
-        <script src="@routes.Assets.versioned("javascripts/board.js")" type="text/javascript"></script>
-        <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/bootstrap.min.css")">
-        <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/board.css")">
-        <title>Board List</title>
-    </head>
-    <body>
-        <div class="container">
-            <h1 class="text-center">게시판 글 목록</h1>
-            <ul id="list" ng-controller="boardController">
-                <board-list></board-list>
-            </ul>
-        </div>
-    </body>
-</html>
+<div class="container">
+    <h1 class="text-center">게시판 글 목록</h1>
+    <ul id="list" ng-controller="boardController">
+        <board-list></board-list>
+    </ul>
+</div>

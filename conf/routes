@@ -13,6 +13,7 @@ GET        /message             controllers.AsyncController.message
 GET        /test                controllers.AngularTestController.test
 
 GET        /board               controllers.BoardPageController.list
+GET        /boardMain           controllers.BoardPageController.main
 
 GET        /boards              controllers.BoardController.boards
 

@@ -1,4 +1,4 @@
-angular.module('boardApp', ['ngResource'])
+boardApp
     .factory('boardService', function ($resource) {
         return $resource('/boards', {}, {
             query: {method: 'GET', isArray: false}
