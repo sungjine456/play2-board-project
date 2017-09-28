@@ -11,6 +11,7 @@ import com.typesafe.config.{ Config, ConfigFactory }
 import dao.BoardRepository.Boards
 import domain.Board
 import org.scalatest.Matchers._
+import org.scalatest.OptionValues._
 import org.scalatest.{ AsyncFlatSpec, BeforeAndAfter }
 import slick.jdbc.H2Profile.api._
 
@@ -37,10 +38,11 @@ class BoardRepositoryTest extends AsyncFlatSpec with BeforeAndAfter {
 
   "boards size" should "one" in {
     val result: Future[Seq[Board]] = db.run(testBoards.result)
+    val board: Option[Board] = Some(Board(1, "title", "context", "admin"))
 
     result map { boards =>
       boards.size should equal(1)
-      boards.head should equal(Board(1, "title", "context", "admin"))
+      boards.head should equal(board.value)
     }
   }
 }
