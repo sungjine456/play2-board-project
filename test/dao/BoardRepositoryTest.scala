@@ -1,7 +1,6 @@
 package dao
 
-import scala.concurrent.Await
-import scala.concurrent.duration._
+import scala.concurrent.Future
 
 import play.api.Configuration
 import play.api.db.evolutions.Evolutions
@@ -12,10 +11,10 @@ import com.typesafe.config.{ Config, ConfigFactory }
 import dao.BoardRepository.Boards
 import domain.Board
 import org.scalatest.Matchers._
-import org.scalatest.{ BeforeAndAfter, FlatSpec }
+import org.scalatest.{ AsyncFlatSpec, BeforeAndAfter }
 import slick.jdbc.H2Profile.api._
 
-class BoardRepositoryTest extends FlatSpec with BeforeAndAfter {
+class BoardRepositoryTest extends AsyncFlatSpec with BeforeAndAfter {
 
   val config: Config = ConfigFactory.load("testApplication.conf")
   val configuration: Configuration = Configuration(config)
@@ -37,9 +36,11 @@ class BoardRepositoryTest extends FlatSpec with BeforeAndAfter {
   }
 
   "boards size" should "one" in {
-    val result: Seq[Board] = Await.result(db.run(testBoards.result), 1.seconds)
+    val result: Future[Seq[Board]] = db.run(testBoards.result)
 
-    result.seq.size should equal(1)
-    result.head should equal(Board(1, "title", "context", "admin"))
+    result map { boards =>
+      boards.size should equal(1)
+      boards.head should equal(Board(1, "title", "context", "admin"))
+    }
   }
 }
