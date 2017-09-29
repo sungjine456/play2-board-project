@@ -3,9 +3,11 @@ package dao
 import scala.concurrent.Future
 
 import domain.Board
-import slick.jdbc.PostgresProfile.api._
 
-object BoardRepository {
+class BoardRepository(val databaseSupport: DatabaseSupport) {
+
+  import databaseSupport.profile.api._
+
   class Boards(tag: Tag) extends Table[Board](tag, "Boards") {
     def index = column[Long]("index", O.PrimaryKey)
 
@@ -17,9 +19,7 @@ object BoardRepository {
 
     def * = (index, title, context, writer) <> (Board.tupled, Board.unapply _)
   }
+  val boards: TableQuery[Boards] = TableQuery[Boards]
 
-  val db = Database.forConfig("slick.dbs.default.db")
-  val boards = TableQuery[Boards]
-
-  def findAll(): Future[Seq[Board]] = db.run(boards.result)
+  def findAll(): Future[Seq[Board]] = databaseSupport.database.run(boards.result)
 }

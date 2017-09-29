@@ -8,12 +8,11 @@ import play.api.db.{ DBApi, Database }
 import play.api.inject.guice.GuiceApplicationBuilder
 
 import com.typesafe.config.{ Config, ConfigFactory }
-import dao.BoardRepository.Boards
 import domain.Board
 import org.scalatest.Matchers._
 import org.scalatest.OptionValues._
 import org.scalatest.{ AsyncFlatSpec, BeforeAndAfter }
-import slick.jdbc.H2Profile.api._
+import slick.jdbc.H2Profile
 
 class BoardRepositoryTest extends AsyncFlatSpec with BeforeAndAfter {
 
@@ -25,8 +24,7 @@ class BoardRepositoryTest extends AsyncFlatSpec with BeforeAndAfter {
 
   def evolutionConfig: Option[Configuration] = configuration.getOptional[Configuration]("play.evolutions.db.default")
 
-  val db = Database.forConfig("slick.dbs.default.db", config)
-  val testBoards = TableQuery[Boards]
+  val repository: BoardRepository = new BoardRepository(new DatabaseSupport(config, H2Profile))
 
   before {
     Evolutions.applyEvolutions(database)
@@ -36,8 +34,8 @@ class BoardRepositoryTest extends AsyncFlatSpec with BeforeAndAfter {
     Evolutions.cleanupEvolutions(database)
   }
 
-  "boards size" should "one" in {
-    val result: Future[Seq[Board]] = db.run(testBoards.result)
+  "test the findAll method in BoardRepository" should "size of boards is one" in {
+    val result: Future[Seq[Board]] = repository.findAll()
     val board: Option[Board] = Some(Board(1, "title", "context", "admin"))
 
     result map { boards =>
