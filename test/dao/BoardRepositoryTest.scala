@@ -43,4 +43,14 @@ class BoardRepositoryTest extends AsyncFlatSpec with BeforeAndAfter {
       boards.head should equal(board.value)
     }
   }
+
+  "test the delete method in BoardRepository" should "size of boards is zero" in {
+    repository.delete(1L)
+
+    val result: Future[Seq[Board]] = repository.findAll()
+
+    result map { boards =>
+      boards.size should equal(0)
+    }
+  }
 }

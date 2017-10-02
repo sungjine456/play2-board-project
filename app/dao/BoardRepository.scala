@@ -22,4 +22,6 @@ class BoardRepository(val databaseSupport: DatabaseSupport) {
   val boards: TableQuery[Boards] = TableQuery[Boards]
 
   def findAll(): Future[Seq[Board]] = databaseSupport.database.run(boards.result)
+
+  def delete(index: Long): Future[Int] = databaseSupport.database.run(boards.filter(_.index === index).delete)
 }
