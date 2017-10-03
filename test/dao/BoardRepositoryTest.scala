@@ -53,4 +53,17 @@ class BoardRepositoryTest extends AsyncFlatSpec with BeforeAndAfter {
       boards.size should equal(0)
     }
   }
+
+  "test the update method in BoardRepository" should "the board has been changed" in {
+    val board: Board = Board(1, "change title", "change context", "change admin")
+
+    repository.update(board)
+
+    val result: Future[Seq[Board]] = repository.findAll()
+
+    result map { boards =>
+      boards.size should equal(1)
+      boards.last should equal(board)
+    }
+  }
 }

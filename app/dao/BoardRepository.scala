@@ -24,4 +24,12 @@ class BoardRepository(val databaseSupport: DatabaseSupport) {
   def findAll(): Future[Seq[Board]] = databaseSupport.database.run(boards.result)
 
   def delete(index: Long): Future[Int] = databaseSupport.database.run(boards.filter(_.index === index).delete)
+
+  def update(board: Board): Future[Int] = {
+    databaseSupport.database.run(
+      boards.filter(_.index === board.index)
+        .map(b => (b.title, b.context, b.writer))
+        .update((board.title, board.context, board.writer))
+    )
+  }
 }
