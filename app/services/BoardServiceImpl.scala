@@ -9,7 +9,7 @@ import domain.Board
 
 @Singleton
 class BoardServiceImpl @Inject() extends BoardService {
-  private val repository: BoardRepository = new BoardRepository(new DatabaseSupport)
+  private val repository = new BoardRepository(new DatabaseSupport)
 
   override def findAll: Future[Seq[Board]] = repository.findAll()
 }

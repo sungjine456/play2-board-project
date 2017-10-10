@@ -4,7 +4,7 @@ import javax.inject.{ Inject, Singleton }
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
-import play.api.mvc.{ AbstractController, Action, AnyContent, ControllerComponents }
+import play.api.mvc.{ AbstractController, ControllerComponents }
 
 import services.BoardService
 
@@ -13,7 +13,7 @@ class BoardController @Inject()(boardService: BoardService, cc: ControllerCompon
 
   import play.api.libs.json.Json
 
-  def boards: Action[AnyContent] = Action.async {
+  def boards = Action.async {
     boardService.findAll.map { boards =>
       Ok(
         Json.toJsObject(
