@@ -18,7 +18,7 @@ class BoardRepositoryTest extends AsyncFlatSpec with BeforeAndAfter with TestDat
     Evolutions.cleanupEvolutions(database)
   }
 
-  "test the findAll method in BoardRepository" should "size of boards is one" in {
+  "BoardRepository.findAll()" should "size of boards is one" in {
     val result = repository.findAll()
     val board = Some(Board(1, "title", "context", "admin"))
 
@@ -28,7 +28,7 @@ class BoardRepositoryTest extends AsyncFlatSpec with BeforeAndAfter with TestDat
     }
   }
 
-  "test the delete method in BoardRepository" should "size of boards is zero" in {
+  "BoardRepository.delete()" should "size of boards is zero" in {
     repository.delete(1L)
 
     val result = repository.findAll()
@@ -38,7 +38,7 @@ class BoardRepositoryTest extends AsyncFlatSpec with BeforeAndAfter with TestDat
     }
   }
 
-  "test the update method in BoardRepository" should "the board has been changed" in {
+  "BoardRepository.update()" should "the board has been changed" in {
     val board = Board(1, "change title", "change context", "change admin")
 
     repository.update(board)
