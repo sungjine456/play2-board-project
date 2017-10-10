@@ -1,27 +1,14 @@
 package dao
 
-import play.api.Configuration
 import play.api.db.evolutions.Evolutions
-import play.api.db.{ DBApi, Database }
-import play.api.inject.guice.GuiceApplicationBuilder
 
-import com.typesafe.config.ConfigFactory
 import domain.Board
 import org.scalatest.Matchers._
 import org.scalatest.{ AsyncFlatSpec, BeforeAndAfter }
-import slick.jdbc.H2Profile
 
-class BoardRepositoryTest extends AsyncFlatSpec with BeforeAndAfter {
+class BoardRepositoryTest extends AsyncFlatSpec with BeforeAndAfter with TestDatabaseSupport {
 
-  val config = ConfigFactory.load("testApplication.conf")
-  val configuration = Configuration(config)
-  val appBuilder = new GuiceApplicationBuilder().configure(configuration)
-
-  def database: Database = appBuilder.injector().instanceOf[DBApi].database("default")
-
-  def evolutionConfig: Option[Configuration] = configuration.getOptional[Configuration]("play.evolutions.db.default")
-
-  val repository = new BoardRepository(new DatabaseSupport(config, H2Profile))
+  val repository = new BoardRepository(dbConfig)
 
   before {
     Evolutions.applyEvolutions(database)

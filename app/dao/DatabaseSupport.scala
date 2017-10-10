@@ -1,12 +1,12 @@
 package dao
 
-import com.typesafe.config.{ Config, ConfigFactory }
-import slick.jdbc.{ JdbcProfile, PostgresProfile }
+import play.api.db.slick.DatabaseConfigProvider
 
-class DatabaseSupport(val config: Config, val profile: JdbcProfile) {
-  def this() = this(ConfigFactory.load("application.conf"), PostgresProfile)
+import slick.basic.DatabaseConfig
+import slick.jdbc.JdbcProfile
 
-  import profile.api._
+trait DatabaseSupport extends DatabaseAware {
+  def dbConfigProvider: DatabaseConfigProvider
 
-  val database: Database = Database.forConfig("slick.dbs.default.db", config)
+  override def dbConfig: DatabaseConfig[JdbcProfile] = dbConfigProvider.get[JdbcProfile] ensuring (_ != null)
 }
