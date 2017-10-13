@@ -18,7 +18,7 @@ class BoardRepositoryTest extends AsyncFlatSpec with BeforeAndAfter with TestDat
     Evolutions.cleanupEvolutions(database)
   }
 
-  "BoardRepository.findAll()" should "size of boards is one" in {
+  "BoardRepository.findAll()" should "find all boards" in {
     val result = repository.findAll()
     val board = Some(Board(1, "title", "context", "admin"))
 
@@ -28,7 +28,7 @@ class BoardRepositoryTest extends AsyncFlatSpec with BeforeAndAfter with TestDat
     }
   }
 
-  "BoardRepository.delete()" should "size of boards is zero" in {
+  "BoardRepository.delete(index)" should "delete a board that include the parameter index" in {
     repository.delete(1L)
 
     val result = repository.findAll()
@@ -38,7 +38,7 @@ class BoardRepositoryTest extends AsyncFlatSpec with BeforeAndAfter with TestDat
     }
   }
 
-  "BoardRepository.update()" should "the board has been changed" in {
+  "BoardRepository.update(board)" should "change a board with the parameter board" in {
     val board = Board(1, "change title", "change context", "change admin")
 
     repository.update(board)
