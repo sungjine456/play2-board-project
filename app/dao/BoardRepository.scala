@@ -25,6 +25,8 @@ class BoardRepository(val dbConfig: DatabaseConfig[JdbcProfile]) {
 
   def findAll(): Future[Seq[Board]] = dbConfig.db.run(boards.result)
 
+  def findByIndex(index: Long): Future[Option[Board]] = dbConfig.db.run(boards.filter(_.index === index).result.headOption)
+
   def delete(index: Long): Future[Int] = dbConfig.db.run(boards.filter(_.index === index).delete)
 
   def update(board: Board): Future[Int] = {

@@ -30,29 +30,46 @@ class BoardRepositoryTest extends AsyncFlatSpec with BeforeAndAfter with TestDat
     }
   }
 
-  "BoardRepository.delete(index)" should "delete a board that include the parameter index" in {
-    val resultBeforeDeletion = repository.findAll()
+  "BoardRepository.findByIndex(index)" should "find a board that include the parameter index" in {
+    val result = repository.findByIndex(2L)
+    val board = Some(Board(2, "title2", "context2", "admin"))
 
-    resultBeforeDeletion map { boards => boards.size should equal(4) }
+    result map { b => b should equal(board) }
+  }
+
+  it should "return a none if board is not found" in {
+    val result = repository.findByIndex(5L)
+
+    result map { b => b should equal(None) }
+  }
+
+  "BoardRepository.delete(index)" should "delete a board that include the parameter index" in {
+    val resultBeforeDeletionAll = repository.findAll()
+    val resultBeforeDeletionFoundOne = repository.findByIndex(1L)
+
+    resultBeforeDeletionAll map { boards => boards.size should equal(4) }
+    resultBeforeDeletionFoundOne map { board => board should not equal None }
 
     repository.delete(1L)
 
-    val resultAfterDeletion = repository.findAll()
+    val resultAfterDeletionAll = repository.findAll()
+    val resultAfterDeletionFoundOne = repository.findByIndex(1L)
 
-    resultAfterDeletion map { boards => boards.size should equal(3) }
+    resultAfterDeletionAll map { boards => boards.size should equal(3) }
+    resultAfterDeletionFoundOne map { board => board should equal(None) }
   }
 
   "BoardRepository.update(board)" should "change a board with the parameter board" in {
-    val updateBoard = Board(1, "change title", "change context", "change admin")
+    val updateBoard = Some(Board(1L, "change title", "change context", "change admin"))
 
-    val resultBeforeUpdating = repository.findAll()
+    val resultBeforeUpdating = repository.findByIndex(1L)
 
-    resultBeforeUpdating map { boards => boards.head should not equal updateBoard }
+    resultBeforeUpdating map { board => board should not equal updateBoard }
 
-    repository.update(updateBoard)
+    repository.update(updateBoard.value)
 
-    val resultAfterUpdating = repository.findAll()
+    val resultAfterUpdating = repository.findByIndex(1L)
 
-    resultAfterUpdating map { boards => boards.head should equal(updateBoard) }
+    resultAfterUpdating map { board => board should equal(updateBoard) }
   }
 }
