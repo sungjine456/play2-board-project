@@ -15,18 +15,7 @@ class BoardController @Inject()(boardService: BoardService, cc: ControllerCompon
 
   def boards = Action.async {
     boardService.findAll.map { boards =>
-      Ok(
-        Json.toJsObject(
-          Map(
-            "boards" -> boards.map(board =>
-              Map(
-                "title" -> Json.toJson(board.title),
-                "writer" -> Json.toJson(board.writer)
-              )
-            )
-          )
-        )
-      )
+      Ok(Json.obj("boards" -> boards.map(board => board.json)))
     }
   }
 }
