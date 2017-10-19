@@ -72,4 +72,23 @@ class BoardRepositoryTest extends AsyncFlatSpec with BeforeAndAfter with TestDat
 
     resultAfterUpdating map { board => board should equal(updateBoard) }
   }
+
+  "BoardRepository.insert(board)" should "add the parameter board with increasing index" in {
+    val resultBeforeInsert = repository.findAll()
+
+    resultBeforeInsert map { boards => boards.size should equal(4) }
+
+    val board = Board(0, "testT", "testC", "testW")
+    repository.insert(board)
+
+    val allResultsAfterInsert = repository.findAll()
+    val resultAfterInsert = repository.findByIndex(5L)
+
+    allResultsAfterInsert map { boards => boards.size should equal(5) }
+    resultAfterInsert map { b =>
+      b.get.title should equal(board.title)
+      b.get.context should equal(board.context)
+      b.get.writer should equal(board.writer)
+    }
+  }
 }

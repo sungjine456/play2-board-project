@@ -11,7 +11,7 @@ class BoardRepository(val dbConfig: DatabaseConfig[JdbcProfile]) {
   import dbConfig.profile.api._
 
   class Boards(tag: Tag) extends Table[Board](tag, "Boards") {
-    def index = column[Long]("index", O.PrimaryKey)
+    def index = column[Long]("index", O.PrimaryKey, O.AutoInc)
 
     def title = column[String]("title")
 
@@ -35,5 +35,9 @@ class BoardRepository(val dbConfig: DatabaseConfig[JdbcProfile]) {
         .map(b => (b.title, b.context, b.writer))
         .update((board.title, board.context, board.writer))
     )
+  }
+
+  def insert(board: Board): Future[Int] = {
+    dbConfig.db.run(boards += board)
   }
 }
