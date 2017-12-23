@@ -25,6 +25,7 @@ lazy val server = playTestProject.jvm
   .settings(
     name := "playTestProject-server",
     routesGenerator := InjectedRoutesGenerator,
+    pipelineStages := Seq(scalaJSProd),
     scalaJSProjects := Seq(playTestProject.js),
     stage := { stage dependsOn(assets, fullOptJS in(client, Compile)) }.value,
     routesGenerator := InjectedRoutesGenerator,
@@ -36,21 +37,39 @@ lazy val server = playTestProject.jvm
       "com.typesafe.slick" %% "slick-hikaricp" % "3.2.1",
       "org.postgresql" % "postgresql" % "42.1.4",
       "com.typesafe.play" %% "play-slick-evolutions" % "3.0.1",
-      "org.scala-js" %% "scalajs-stubs" % scalaJSVersion))
+      "com.github.benhutchison" %% "prickle" % "1.1.13",
+      "org.scala-js" %% "scalajs-stubs" % scalaJSVersion,
+      "org.webjars.bower" % "angular" % "1.5.7",
+      "org.webjars.bower" % "jquery" % "2.2.4" force()))
 
 lazy val client = playTestProject.js
   .enablePlugins(ScalaJSPlugin)
   .settings(
+    scalaJSUseMainModuleInitializer := true,
     name := "playTestProject-client",
     libraryDependencies ++= Seq(
-      "com.greencatsoft" %%%! "scalajs-angular" % "0.8-SNAPSHOT"),
-    relativeSourceMaps := true)
+      "com.greencatsoft" %%%! "scalajs-angular" % "0.8-SNAPSHOT",
+      "com.lihaoyi" %%%! "upickle" % "0.4.4",
+      "com.github.benhutchison" %%%! "prickle" % "1.1.13",
+      "be.doeraene" %%%! "scalajs-jquery" % "0.9.0"),
+    jsDependencies ++= Seq(
+      ("org.webjars.bower" % "jquery" % "2.2.4" force()) / "dist/jquery.js" minified s"dist/jquery.min.js",
+      ("org.webjars.bower" % "angular" % "1.6.6" force()) / "angular.js" minified "angular.min.js" dependsOn "dist/jquery.js",
+      "org.webjars.bower" % "angular-ui-router" % "1.0.8" / "angular-ui-router.js" minified "angular-ui-router.min.js" dependsOn "angular.js",
+      "org.webjars.bower" % "angular-resource" % "1.6.6" / "angular-resource.js" minified "angular-resource.min.js" dependsOn "angular.js"),
+    relativeSourceMaps := true,
+    skip in packageJSDependencies := false)
 
 lazy val playTestProject = (crossProject in file("."))
   .settings(
     name := "playTestProject-common",
     libraryDependencies ++= Seq(
       "com.typesafe.play" %%% "play-json" % "2.6.6"
-    ))
-
-ivyScala := ivyScala.value map { _.copy(overrideScalaVersion = true) }
+    ),
+    unmanagedSourceDirectories in Compile :=
+      Seq((scalaSource in Compile).value) ++
+        crossType.sharedSrcDir(baseDirectory.value, "main"),
+    unmanagedSourceDirectories in Test :=
+      Seq((scalaSource in Test).value) ++
+        crossType.sharedSrcDir(baseDirectory.value, "test"),
+    testOptions in Test := Seq(Tests.Filter(_.endsWith("Test"))))

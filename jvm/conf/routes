@@ -4,7 +4,7 @@
 # ~~~~
 
 GET        /board               controllers.BoardPageController.list
-GET        /boardMain           controllers.BoardPageController.main
+GET        /                    controllers.BoardPageController.main
 
 GET        /boards              controllers.BoardController.boards
 
