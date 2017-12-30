@@ -6,7 +6,7 @@ import scala.scalajs.js.JSConverters.JSRichGenTraversableOnce
 import scala.scalajs.js.annotation.JSExportTopLevel
 
 import factory.BoardService
-import scope.BoardScope
+import scope.BoardListScope
 
 import com.greencatsoft.angularjs.core.{ ExceptionHandler, Location, Timeout }
 import com.greencatsoft.angularjs.{ AbstractController, AngularExecutionContextProvider, injectable }
@@ -14,12 +14,12 @@ import com.greencatsoft.angularjs.{ AbstractController, AngularExecutionContextP
 @JSExportTopLevel("controller.BoardController")
 @injectable("boardController")
 class BoardController(
-  scope: BoardScope,
+  scope: BoardListScope,
   location: Location,
   service: BoardService,
   val timeout: Timeout,
   val exceptionHandler: ExceptionHandler)
-  extends AbstractController[BoardScope](scope)
+  extends AbstractController[BoardListScope](scope)
     with AngularExecutionContextProvider {
 
   service.get() onComplete {

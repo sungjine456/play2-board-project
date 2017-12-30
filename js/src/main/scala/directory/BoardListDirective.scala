@@ -1,12 +1,12 @@
 package directory
 
-import scope.BoardScope
+import scope.BoardListScope
 
 import com.greencatsoft.angularjs.{ ElementDirective, TemplateSourceDirective, injectable }
 
 @injectable("boardList")
 class BoardListDirective extends ElementDirective with TemplateSourceDirective {
-  override type ScopeType = BoardScope
+  override type ScopeType = BoardListScope
 
   override val template = "<li ng-repeat='board in boards'> <div class='row'>" +
     "<div class='col-sm-1 text-center'>{{$index + 1}}</div>" +

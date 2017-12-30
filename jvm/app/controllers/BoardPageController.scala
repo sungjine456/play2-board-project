@@ -12,4 +12,8 @@ class BoardPageController @Inject()(cc: ControllerComponents) extends AbstractCo
   def main = Action {
     Ok(views.html.boardMain())
   }
+
+  def write = Action {
+    Ok(views.html.boardWrite())
+  }
 }

@@ -1,20 +1,24 @@
 import scala.scalajs.js.annotation.{ JSExport, JSExportTopLevel }
 
-import controller.BoardController
+import controller.{ BoardController, BoardWriteController }
 import directory.BoardListDirective
 import factory.BoardService
 
-import com.greencatsoft.angularjs.extensions.{ State, StateProvider }
+import com.greencatsoft.angularjs.extensions.{ State, StateProvider, UrlRouterProvider }
 import com.greencatsoft.angularjs.{ Angular, Config }
 
-class Client(stateProvider: StateProvider) extends Config {
+class Client(stateProvider: StateProvider, routerProvider: UrlRouterProvider) extends Config {
 
   override def initialize() = {
     configRoutes()
   }
 
   protected def configRoutes() = {
-    stateProvider.state("boards", State(url = "", templateUrl = "/board"))
+    stateProvider
+      .state("boards", State(url = "/", templateUrl = "/board"))
+      .state("write", State(url = "/write", templateUrl = "/boardWrite"))
+
+    routerProvider.otherwise("/")
   }
 }
 
@@ -26,6 +30,7 @@ object Client {
       .config[Client]
 
       .controller[BoardController]
+      .controller[BoardWriteController]
 
       .directive[BoardListDirective]
 
