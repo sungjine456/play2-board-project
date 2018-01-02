@@ -14,4 +14,8 @@ class BoardServiceImpl @Inject()(val dbConfigProvider: DatabaseConfigProvider) e
   private val repository = new BoardRepository(dbConfig)
 
   override def findAll: Future[Seq[Board]] = repository.findAll()
+
+  override def write(title: String, context: String): Future[Int] = {
+    repository.insert(Board(1,title, context))
+  }
 }

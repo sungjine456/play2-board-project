@@ -9,7 +9,7 @@ GET         /boardWrite          controllers.BoardPageController.write
 
 GET         /boards              controllers.BoardController.boards
 
-POST        /boardWrite          controllers.BoardWriteController.write
+PUT         /board               controllers.BoardWriteController.write
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file        controllers.Assets.versioned(path="/public", file: Asset)

@@ -18,7 +18,7 @@ class BoardWriteController(
 
   @JSExport
   def boardWrite() {
-    service.write(scope.title, scope.content)
+    service.write(scope.title, scope.context)
 
     location.url("/")
   }
