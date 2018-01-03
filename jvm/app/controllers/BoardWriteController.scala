@@ -8,10 +8,11 @@ import play.api.Environment
 import play.api.data._
 import play.api.data.Forms._
 import play.api.http.Writeable
-import play.api.mvc.{ AbstractController, Codec, ControllerComponents }
+import play.api.mvc.{ AbstractController, Codec, ControllerComponents, Request }
 
 import prickle.{ Pickle, Pickler }
 import services.BoardService
+import views.html.helper.CSRF
 
 @Singleton
 class BoardWriteController @Inject()(boardService: BoardService, cc: ControllerComponents, env: Environment) extends AbstractController(cc) {
@@ -27,6 +28,10 @@ class BoardWriteController @Inject()(boardService: BoardService, cc: ControllerC
 
   implicit def modelWriteable[A](implicit pickler: Pickler[A], codec: Codec): Writeable[A] = {
     Writeable(data => codec.encode(Pickle.intoString(data)), Some(JSON))
+  }
+
+  def accessToken(implicit request: Request[_]) = {
+    val token = CSRF.getToken
   }
 }
 
